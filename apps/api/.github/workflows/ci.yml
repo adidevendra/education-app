@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Start app (in-memory DB) for smoke tests
+        env:
+          USE_IN_MEMORY_DB: '1'
+        run: |
+          npm run dev:inmem &
+          # wait for the server to boot (simple probe)
+          for i in {1..30}; do
+            if curl -sS http://localhost:3000/api/health >/dev/null 2>&1; then
+              echo "server up";
+              break;
+            fi
+            sleep 1;
+          done
+
+      - name: Run smoke tests
+        run: bash apps/api/smoke-tests.sh
+
+      - name: Run unit tests (Jest)
+        run: npm test --silent
+
+      - name: Run unit tests (in-memory)
+        env:
+          USE_IN_MEMORY_DB: '1'
+        run: npm run test:inmem
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jest-coverage
+          path: coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          fail_ci_if_error: true

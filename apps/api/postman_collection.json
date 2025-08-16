@@ -1,0 +1,161 @@
+{
+  "info": {
+    "name": "Education API - Smoke Tests",
+    "_postman_id": "education-api-smoke",
+    "description": "Collection for health + users/courses/lessons CRUD (in-memory)\nSet variable {{baseUrl}} to http://localhost:3000/api before running.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health - GET /health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Simple health check"
+      }
+    },
+
+    {
+      "name": "Users - Create (POST /users)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"test@example.com\",\n  \"name\": \"Test User\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["users"]
+        },
+        "description": "Create a new user. In in-memory mode the API returns an `id` field."
+      }
+    },
+    {
+      "name": "Users - List (GET /users)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] },
+        "description": "List users"
+      }
+    },
+    {
+      "name": "Users - Update (PATCH /users/:id)",
+      "request": {
+        "method": "PATCH",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Name\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": { "raw": "{{baseUrl}}/users/:id", "host": ["{{baseUrl}}"], "path": ["users", ":id"], "variable": [ { "key": "id", "value": "1" } ] },
+        "description": "Update user by id. Replace :id path variable before running."
+      }
+    },
+    {
+      "name": "Users - Delete (DELETE /users/:id)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/users/:id", "host": ["{{baseUrl}}"], "path": ["users", ":id"], "variable": [ { "key": "id", "value": "1" } ] },
+        "description": "Delete user by id. Replace :id path variable before running."
+      }
+    },
+
+    {
+      "name": "Courses - Create (POST /courses)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Intro to Copilot\",\n  \"slug\": \"intro-to-copilot\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": { "raw": "{{baseUrl}}/courses", "host": ["{{baseUrl}}"], "path": ["courses"] },
+        "description": "Create a course. Include `slug` to satisfy DTO."
+      }
+    },
+    {
+      "name": "Courses - List (GET /courses)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/courses", "host": ["{{baseUrl}}"], "path": ["courses"] },
+        "description": "List courses"
+      }
+    },
+    {
+      "name": "Courses - Update (PATCH /courses/:id)",
+      "request": {
+        "method": "PATCH",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Intro to Copilot - Updated\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": { "raw": "{{baseUrl}}/courses/:id", "host": ["{{baseUrl}}"], "path": ["courses", ":id"], "variable": [ { "key": "id", "value": "1" } ] },
+        "description": "Update course by id. Replace :id path variable before running."
+      }
+    },
+    {
+      "name": "Courses - Delete (DELETE /courses/:id)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/courses/:id", "host": ["{{baseUrl}}"], "path": ["courses", ":id"], "variable": [ { "key": "id", "value": "1" } ] },
+        "description": "Delete course by id. Replace :id path variable before running."
+      }
+    },
+
+    {
+      "name": "Lessons - Create (POST /lessons)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Lesson 1\",\n  \"courseId\": 1\n}", "options": { "raw": { "language": "json" } } },
+        "url": { "raw": "{{baseUrl}}/lessons", "host": ["{{baseUrl}}"], "path": ["lessons"] },
+        "description": "Create a lesson linked to a course (courseId)."
+      }
+    },
+    {
+      "name": "Lessons - List (GET /lessons)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/lessons", "host": ["{{baseUrl}}"], "path": ["lessons"] },
+        "description": "List lessons"
+      }
+    },
+    {
+      "name": "Lessons - Update (PATCH /lessons/:id)",
+      "request": {
+        "method": "PATCH",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Lesson 1 - Updated\"\n}", "options": { "raw": { "language": "json" } } },
+        "url": { "raw": "{{baseUrl}}/lessons/:id", "host": ["{{baseUrl}}"], "path": ["lessons", ":id"], "variable": [ { "key": "id", "value": "1" } ] },
+        "description": "Update lesson by id. Replace :id path variable before running."
+      }
+    },
+    {
+      "name": "Lessons - Delete (DELETE /lessons/:id)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/lessons/:id", "host": ["{{baseUrl}}"], "path": ["lessons", ":id"], "variable": [ { "key": "id", "value": "1" } ] },
+        "description": "Delete lesson by id. Replace :id path variable before running."
+      }
+    }
+  ]
+}
