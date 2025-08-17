@@ -1,0 +1,63 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - id: vercel
+        name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+        run: |
+          set -euo pipefail
+          echo "Deploying to Vercel (org: $VERCEL_ORG_ID, project: $VERCEL_PROJECT_ID)"
+          # Use npx vercel to deploy; capture output
+          DEPLOY_OUT=$(npx vercel --prod --confirm --token "$VERCEL_TOKEN" --org "$VERCEL_ORG_ID" --project "$VERCEL_PROJECT_ID" 2>&1)
+          echo "$DEPLOY_OUT"
+          # Extract first matching URL (vercel domains)
+          DEPLOY_URL=$(echo "$DEPLOY_OUT" | grep -Eo 'https?://[^ ]+' | grep -E 'vercel.app|now.sh' | head -n1 || true)
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Failed to parse deployment URL from Vercel output"
+            exit 1
+          fi
+          echo "Deployment URL: $DEPLOY_URL"
+          # Expose for later steps
+          echo "deploy_url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Health check
+        run: |
+          set -euo pipefail
+          URL=${{ steps.vercel.outputs.deploy_url }}
+          echo "Checking health at: $URL"
+          # Try for up to 30s with retries
+          for i in 1 2 3 4 5 6; do
+            status=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
+            echo "Attempt $i: HTTP $status"
+            if [ "$status" = "200" ]; then
+              echo "Healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Deployment failed health check"
+          exit 1
