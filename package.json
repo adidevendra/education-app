@@ -12,6 +12,7 @@
     "@commitlint/config-conventional": "^18.0.0",
     "eslint": "^8.0.0",
     "prettier": "^3.0.0",
+    "tsup": "^8.5.0",
     "typescript": "^5.0.0",
     "vitest": "^1.0.0"
   },
@@ -19,6 +20,6 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
-  "test": "turbo run test"
+    "test": "turbo run test"
   }
 }
