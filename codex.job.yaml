@@ -1,0 +1,10 @@
+apiVersion: codex.ai/v1
+kind: JobSpec
+metadata: { name: edtech_voice_pipeline }
+requirements: { cpu: true, gpu: true, tpu: false, min_ram_gb: 16, min_vram_gb: 24, max_runtime_hours: 24, data_size_gb: 300 }
+pipeline:
+  - { name: data_ingest_alignment, resources: { cpu_hours: 8, gpu_hours: 0, tpu_hours: 0, mem_gb: 8, vram_gb: 0 } }
+  - { name: voice_pretrain_finetune, resources: { cpu_hours: 1, gpu_hours: 18, tpu_hours: 0, mem_gb: 12, vram_gb: 24 } }
+  - { name: tts_inference_batch, resources: { cpu_hours: 3, gpu_hours: 2, tpu_hours: 0, mem_gb: 8, vram_gb: 8 } }
+preferences: { provider_hint: auto, allow_free_tier: true }
+outputs: { artifacts_bucket: s3://YOUR-REAL-BUCKET }  # or gs://YOUR-REAL-BUCKET
