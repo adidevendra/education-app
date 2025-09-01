@@ -7,4 +7,4 @@ pipeline:
   - { name: voice_pretrain_finetune, resources: { cpu_hours: 1, gpu_hours: 18, tpu_hours: 0, mem_gb: 12, vram_gb: 24 } }
   - { name: tts_inference_batch, resources: { cpu_hours: 3, gpu_hours: 2, tpu_hours: 0, mem_gb: 8, vram_gb: 8 } }
 preferences: { provider_hint: auto, allow_free_tier: true }
-outputs: { artifacts_bucket: s3://YOUR-BUCKET }   # or gs://YOUR-BUCKET
+outputs: { artifacts_bucket: s3://YOUR-REAL-BUCKET }  # or gs://YOUR-REAL-BUCKET
