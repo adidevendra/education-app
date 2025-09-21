@@ -39,7 +39,7 @@ export class JwtAuthGuard extends AuthGuardFactory('jwt') {
     const path = req?.url || req?.originalUrl || '';
 
     // Allow-listed paths are public
-    if (this.whitelist.includes(path)) {
+  if (this.whitelist.some((p) => typeof p === 'string' && path.startsWith(p))) {
       return true;
     }
 

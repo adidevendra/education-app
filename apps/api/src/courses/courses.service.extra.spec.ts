@@ -1,12 +1,19 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
+import { ConflictException } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 
-const mockPrisma: any = {
-  course: { create: jest.fn(), update: jest.fn() },
-  enrollment: { findMany: jest.fn(), create: jest.fn() },
+const mockPrisma = {
+  course: {
+    create: jest.fn<(...args: any[]) => Promise<any>>(),
+    update: jest.fn<(...args: any[]) => Promise<any>>(),
+  },
+  enrollment: {
+    findMany: jest.fn<(...args: any[]) => Promise<any>>(),
+    create: jest.fn<(...args: any[]) => Promise<any>>(),
+  },
 };
-const SearchMock = { indexCourse: jest.fn().mockResolvedValue(null) } as any;
-const NotificationsMock = { notify: jest.fn().mockResolvedValue(null) } as any;
+const SearchMock = { indexCourse: jest.fn(async () => null) } as any;
+const NotificationsMock = { notify: jest.fn(async () => null) } as any;
 const AuditMock = { log: jest.fn() } as any;
 
 describe('CoursesService extra tests', () => {
@@ -17,6 +24,8 @@ describe('CoursesService extra tests', () => {
     mockPrisma.course.update.mockReset();
     mockPrisma.enrollment.findMany.mockReset();
     mockPrisma.enrollment.create.mockReset();
+    mockPrisma.enrollment.findMany.mockResolvedValue([]);
+    mockPrisma.enrollment.create.mockResolvedValue({ id: 'enroll' });
     svc = new CoursesService(mockPrisma as any, SearchMock, NotificationsMock, AuditMock);
   });
 
@@ -38,24 +47,26 @@ describe('CoursesService extra tests', () => {
 
   it('enroll duplicate should throw ConflictException', async () => {
     mockPrisma.enrollment.findMany.mockResolvedValue([{ id: 'e1' }]);
-    await expect(svc.enroll('u1', 'c1')).rejects.toThrow();
+    await expect(svc.enroll('u1', 'c1')).rejects.toThrow(ConflictException);
   });
 });
-
-import { CoursesService } from './courses.service';
-import { ConflictException } from '@nestjs/common';
-
 describe('CoursesService duplicate enroll', () => {
   it('throws ConflictException if user already enrolled', async () => {
-    const mockPrisma: any = {
+    const prismaMock = {
       enrollment: {
-        findMany: jest.fn().mockResolvedValue([{ id: 1, courseId: 1, userId: 1 }]),
+        findMany: jest.fn(async () => [{ id: 1, courseId: 1, userId: 1 }]),
         create: jest.fn(),
       },
+      course: { create: jest.fn(), update: jest.fn() },
     };
-    const service = new CoursesService(mockPrisma, {} as any); // second param = AuditService mock
+    const searchStub = { indexCourse: jest.fn(), indexLesson: jest.fn() } as any;
+    const notificationsStub = { notify: jest.fn() } as any;
+    const auditStub = { log: jest.fn() } as any;
 
-    await expect(service.enroll(1, 1)).rejects.toBeInstanceOf(ConflictException);
-    expect(mockPrisma.enrollment.create).not.toHaveBeenCalled();
+    const service = new CoursesService(prismaMock as any, searchStub, notificationsStub, auditStub);
+
+    await expect(service.enroll('1', '1')).rejects.toBeInstanceOf(ConflictException);
+    expect(prismaMock.enrollment.create).not.toHaveBeenCalled();
+    expect(auditStub.log).not.toHaveBeenCalled();
   });
 });

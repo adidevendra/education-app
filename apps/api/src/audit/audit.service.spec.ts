@@ -17,8 +17,13 @@ describe('AuditService', () => {
     prisma = (module.get(PrismaService) as unknown) as MockPrismaService;
   });
 
+  afterAll(() => {
+    delete process.env.USE_IN_MEMORY_DB;
+  });
+
   it('writes an audit log record', async () => {
     await service.log('u-123', 'CREATE', 'Course:c-1');
+    await new Promise((resolve) => setImmediate(resolve));
 
     const logs = await prisma.auditLog.findMany();
     expect(logs.length).toBeGreaterThanOrEqual(1);

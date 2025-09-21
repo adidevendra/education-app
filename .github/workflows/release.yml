@@ -1,0 +1,87 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Cache Turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            turbo-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all
+        run: pnpm build
+
+      - name: Upload API dist
+        if: ${{ hashFiles('apps/api/dist/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-dist
+          path: apps/api/dist
+
+      - name: Upload Web OpenIndia next build
+        if: ${{ hashFiles('apps/web-openindia/.next/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-openindia-next
+          path: apps/web-openindia/.next
+
+      - name: Upload Web SSU next build
+        if: ${{ hashFiles('apps/web-ssu/.next/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-ssu-next
+          path: apps/web-ssu/.next
+
+      - name: Deploy to Vercel (if token provided)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        if: ${{ env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != '' }}
+        run: |
+          npm i -g vercel@latest
+          vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+          vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+      - name: Deploy to GCP (Cloud Run) if token provided
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCP_REGION: ${{ secrets.GCP_REGION }}
+        if: ${{ env.GOOGLE_CREDENTIALS != '' && env.GCP_PROJECT != '' && env.GCP_REGION != '' }}
+        run: |
+          curl -sL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-477.0.0-linux-x86_64.tar.gz | tar zx
+          ./google-cloud-sdk/install.sh -q
+          source ./google-cloud-sdk/path.bash.inc
+          gcloud auth activate-service-account --key-file=<(echo "$GOOGLE_CREDENTIALS")
+          gcloud config set project "$GCP_PROJECT"
+          gcloud config set run/region "$GCP_REGION"
+          echo "GCP deployment step placeholder - add container build & run deploy as needed"

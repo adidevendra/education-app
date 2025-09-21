@@ -1,0 +1,17 @@
+
+> @repo/sdk@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/sdk
+> tsup src/index.ts --dts --format esm,cjs --clean
+
+CLI Building entry: src/index.ts
+CLI tsup v8.1.0
+CLI Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/sdk/tsup.config.ts
+CLI Target: node16
+CLI Cleaning output folder
+ESM Build start
+CJS Build start
+CJS dist/index.cjs     10.37 KB
+CJS dist/index.cjs.map 24.38 KB
+CJS ⚡️ Build success in 24ms
+ESM dist/index.js     7.74 KB
+ESM dist/index.js.map 23.98 KB
+ESM ⚡️ Build success in 24ms

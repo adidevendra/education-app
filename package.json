@@ -1,25 +1,49 @@
 {
   "name": "lmsaas-turborepo",
   "private": true,
-  "packageManager": "pnpm@8.0.0",
+  "engines": {
+    "node": ">=20"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "devDependencies": {
-    "@changesets/cli": "^2.26.0",
-    "@commitlint/cli": "^18.0.0",
-    "@commitlint/config-conventional": "^18.0.0",
-    "eslint": "^8.0.0",
-    "prettier": "^3.0.0",
-    "tsup": "^8.5.0",
-    "typescript": "^5.0.0",
-    "vitest": "^1.0.0"
-  },
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
-    "test": "turbo run test"
-  }
+    "test": "turbo run test",
+    "test:unit": "turbo run test --filter=packages/* --filter=apps/api",
+    "test:e2e": "docker compose -f docker-compose.dev.yml up -d && pnpm --filter apps/api run test:e2e:inmem && pnpm exec playwright test",
+    "posttest:e2e": "docker compose -f docker-compose.dev.yml down",
+    "generate:sdk": "orval --config orval.config.ts",
+    "check:sdk-drift": "pnpm generate:sdk && git diff --quiet || (echo 'SDK drift detected. Run pnpm generate:sdk and commit.' && exit 1)",
+    "generate": "pnpm generate:sdk",
+    "align:demo": "pnpm --filter education-api run align:demo",
+    "translate:demo": "pnpm --filter education-api run translate:demo",
+    "tts:demo": "pnpm --filter education-api run tts:demo"
+  },
+  "dependencies": {
+    "next": "^14.2.31",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.6",
+    "@changesets/cli": "^2.26.0",
+    "@commitlint/cli": "^18.0.0",
+    "@commitlint/config-conventional": "^18.0.0",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "vitest": "^1.0.0",
+    "@playwright/test": "^1.46.1",
+    "orval": "^6.21.0"
+  },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
 }

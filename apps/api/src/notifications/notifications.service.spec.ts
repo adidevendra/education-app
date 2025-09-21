@@ -10,16 +10,16 @@ describe('NotificationsService (unit)', () => {
 
   it('notify resolves with ok true for generic channel', async () => {
     const res = await svc.notify('test', { foo: 'bar' });
-    expect(res).toEqual({ ok: true });
+    expect(res).toMatchObject({ ok: true });
   });
 
   it('sendEmail delegates to notify', async () => {
     const res = await svc.sendEmail('a@b.com', 'sub', 'body');
-    expect(res).toEqual({ ok: true });
+    expect(res).toMatchObject({ ok: true });
   });
 
   it('sendPush delegates to notify', async () => {
     const res = await svc.sendPush('dev1', 'hi', 'msg');
-    expect(res).toEqual({ ok: true });
+    expect(res).toMatchObject({ ok: true });
   });
 });

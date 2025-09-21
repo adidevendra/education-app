@@ -1,0 +1,655 @@
+openapi: 3.0.3
+info:
+  title: Education API
+  description: Core API contract for OpenIndia web clients and internal tools
+  version: 0.2.0
+servers:
+  - url: https://api.example.com
+    description: Production
+  - url: http://localhost:3000
+    description: Local development
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+  - name: Courses
+  - name: Lectures
+  - name: Jobs
+  - name: Search
+  - name: SSU
+paths:
+  /api/auth/login:
+    post:
+      tags: [Auth]
+      operationId: login
+      summary: Authenticate a user by email and password
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthLoginRequest'
+      responses:
+        '200':
+          description: Authenticated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '401':
+          description: Invalid credentials
+  /api/courses:
+    get:
+      tags: [Courses]
+      operationId: listCourses
+      summary: List all courses for the current tenant
+      responses:
+        '200':
+          description: Course collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+    post:
+      tags: [Courses]
+      operationId: createCourse
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCourseRequest'
+      responses:
+        '201':
+          description: Course created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+  /api/courses/{id}:
+    patch:
+      tags: [Courses]
+      operationId: updateCourse
+      summary: Update a course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCourseRequest'
+      responses:
+        '200':
+          description: Updated course
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+  /api/courses/{id}/enroll:
+    post:
+      tags: [Courses]
+      operationId: enrollInCourse
+      summary: Enroll the active user in a course
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Enrollment acknowledged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrollmentResponse'
+        '404':
+          description: Course not found
+  /api/courses/search:
+    get:
+      tags: [Search]
+      operationId: searchCourses
+      summary: Search published courses
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: false
+          description: Free text query
+      responses:
+        '200':
+          description: Search hits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourseSearchHit'
+  /api/lessons:
+    get:
+      tags: [Lectures]
+      operationId: listLectures
+      summary: List lessons for all courses
+      responses:
+        '200':
+          description: Lesson collection
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lecture'
+    post:
+      tags: [Lectures]
+      operationId: createLecture
+      summary: Create a lesson under a module
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLectureRequest'
+      responses:
+        '201':
+          description: Lesson created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecture'
+  /api/lessons/search:
+    get:
+      tags: [Search]
+      operationId: searchLectures
+      summary: Search lessons by title or content
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: false
+          description: Free text query
+      responses:
+        '200':
+          description: Lesson search hits
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LectureSearchHit'
+  /api/v1/search/reindex:
+    post:
+      tags: [Search]
+      operationId: reindexSearch
+      summary: Trigger re-index background job
+      responses:
+        '200':
+          description: Re-index request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReindexResponse'
+  /api/jobs/outbox:
+    get:
+      tags: [Jobs]
+      operationId: listJobs
+      summary: List queued outbox jobs
+      responses:
+        '200':
+          description: Outbox jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OutboxJob'
+    post:
+      tags: [Jobs]
+      operationId: enqueueJob
+      summary: Enqueue a job into the outbox
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnqueueJobRequest'
+      responses:
+        '201':
+          description: Job enqueued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboxJob'
+  /api/v1/ssu/risk:
+    get:
+      tags: [SSU]
+      operationId: getRiskQueue
+      summary: List at-risk students (risk triage queue)
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: false
+          description: Free-text search (name/email)
+        - in: query
+          name: min
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+          required: false
+          description: Minimum risk score inclusive
+        - in: query
+          name: max
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+          required: false
+          description: Maximum risk score inclusive
+      responses:
+        '200':
+          description: Array of risk students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RiskStudent'
+  /api/v1/ssu/students/{id}:
+    get:
+      tags: [SSU]
+      operationId: getStudent
+      summary: Get student detail profile
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Student detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDetail'
+        '404':
+          description: Student not found
+  /api/v1/ssu/students/{id}/tickets:
+    post:
+      tags: [SSU]
+      operationId: createTicket
+      summary: Create a support ticket for a student
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTicketRequest'
+      responses:
+        '201':
+          description: Ticket created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResource'
+  /api/v1/ssu/students/{id}/office-hours:
+    post:
+      tags: [SSU]
+      operationId: scheduleOfficeHour
+      summary: Schedule an office hour session for a student
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleOfficeHourRequest'
+      responses:
+        '201':
+          description: Office hour scheduled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResource'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AuthLoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+    AuthTokenResponse:
+      type: object
+      required: [access_token]
+      properties:
+        access_token:
+          type: string
+          description: JWT bearer token
+    Course:
+      type: object
+      required: [orgId, title, slug]
+      properties:
+        id:
+          type: string
+          format: uuid
+        orgId:
+          type: string
+        title:
+          type: string
+          minLength: 3
+          maxLength: 160
+        slug:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+          minLength: 3
+          maxLength: 120
+        description:
+          type: string
+          maxLength: 4000
+          nullable: true
+        visibility:
+          type: string
+          enum: [public, private, unlisted]
+          default: private
+        tags:
+          type: array
+          maxItems: 20
+          items:
+            type: string
+            minLength: 1
+            maxLength: 32
+        estimatedMinutes:
+          type: integer
+          minimum: 1
+          maximum: 100000
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateCourseRequest:
+      allOf:
+        - $ref: '#/components/schemas/Course'
+        - type: object
+          properties:
+            id:
+              readOnly: true
+            createdAt:
+              readOnly: true
+            updatedAt:
+              readOnly: true
+    UpdateCourseRequest:
+      type: object
+      properties:
+        orgId:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+          nullable: true
+        visibility:
+          type: string
+          enum: [public, private, unlisted]
+        tags:
+          type: array
+          items:
+            type: string
+        estimatedMinutes:
+          type: integer
+      additionalProperties: false
+    EnrollmentResponse:
+      type: object
+      required: [success, enrollmentId]
+      properties:
+        success:
+          type: boolean
+        enrollmentId:
+          type: string
+    Lecture:
+      type: object
+      required: [moduleId, title, position]
+      properties:
+        id:
+          type: string
+          format: uuid
+        moduleId:
+          type: string
+        title:
+          type: string
+          minLength: 2
+          maxLength: 160
+        summary:
+          type: string
+          maxLength: 2000
+          nullable: true
+        durationSeconds:
+          type: integer
+          minimum: 1
+          maximum: 14400
+        isPublished:
+          type: boolean
+          default: false
+        position:
+          type: integer
+          minimum: 0
+        contentMd:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    CreateLectureRequest:
+      type: object
+      required: [moduleId, title, position]
+      properties:
+        moduleId:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        position:
+          type: integer
+          minimum: 0
+        contentMd:
+          type: string
+          nullable: true
+    CourseSearchHit:
+      type: object
+      required: [id, title]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        slug:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        visibility:
+          type: string
+          enum: [public, private, unlisted]
+    LectureSearchHit:
+      type: object
+      required: [id, title]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        summary:
+          type: string
+          nullable: true
+        moduleId:
+          type: string
+    ReindexResponse:
+      type: object
+      required: [ok, enqueued]
+      properties:
+        ok:
+          type: boolean
+        enqueued:
+          type: integer
+          minimum: 0
+    OutboxJob:
+      type: object
+      required: [id, type, payload, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          maxLength: 128
+        payload:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        processedAt:
+          type: string
+          format: date-time
+          nullable: true
+    EnqueueJobRequest:
+      type: object
+      required: [type, payload]
+      properties:
+        type:
+          type: string
+          maxLength: 128
+        payload:
+          type: object
+    RiskStudent:
+      type: object
+      required: [id, name, email, riskScore]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        riskScore:
+          type: integer
+          minimum: 0
+          maximum: 100
+        course:
+          type: string
+          nullable: true
+    StudentDetail:
+      allOf:
+        - $ref: '#/components/schemas/RiskStudent'
+        - type: object
+          required: [enrollments, progressVelocity, tickets, notes, officeHours]
+          properties:
+            enrollments:
+              type: array
+              items:
+                type: object
+                required: [courseId, course, startedAt, progressPct]
+                properties:
+                  courseId: { type: string }
+                  course: { type: string }
+                  startedAt: { type: string, format: date-time }
+                  progressPct: { type: number, minimum: 0, maximum: 100 }
+            progressVelocity:
+              type: number
+            tickets:
+              type: array
+              items:
+                type: object
+                required: [id, title, status, createdAt]
+                properties:
+                  id: { type: string }
+                  title: { type: string }
+                  status: { type: string, enum: [open, closed] }
+                  createdAt: { type: string, format: date-time }
+            notes:
+              type: array
+              items:
+                type: object
+                required: [id, body, createdAt, author]
+                properties:
+                  id: { type: string }
+                  body: { type: string }
+                  createdAt: { type: string, format: date-time }
+                  author: { type: string }
+            officeHours:
+              type: array
+              items:
+                type: object
+                required: [id, scheduledAt, with, status]
+                properties:
+                  id: { type: string }
+                  scheduledAt: { type: string, format: date-time }
+                  with: { type: string }
+                  status: { type: string, enum: [scheduled, completed, canceled] }
+    CreateTicketRequest:
+      type: object
+      required: [title]
+      properties:
+        title: { type: string }
+        body: { type: string }
+    ScheduleOfficeHourRequest:
+      type: object
+      required: [scheduledAt, with]
+      properties:
+        scheduledAt: { type: string, format: date-time }
+        with: { type: string }
+    CreatedResource:
+      type: object
+      required: [id]
+      properties:
+        id: { type: string }

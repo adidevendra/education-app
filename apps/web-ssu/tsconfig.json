@@ -1,7 +1,17 @@
 {
   "extends": "../../packages/config/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist"
+  "outDir": "dist",
+  "jsx": "preserve",
+  "lib": ["dom", "es2022"],
+    "types": ["@types/node", "@types/react", "@types/react-dom", "next/types/global"],
+    "baseUrl": ".",
+    "paths": {
+      "@repo/*": ["../../packages/*"]
+    }
   },
-  "include": ["pages"]
+  "include": [
+    "pages",
+    "types"
+  ]
 }

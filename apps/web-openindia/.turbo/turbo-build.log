@@ -1,0 +1,11 @@
+
+> web-openindia@0.1.0 build /Users/adityagaikwad/Documents/Education App/apps/web-openindia
+> next build
+
+  ▲ Next.js 14.2.32
+  - Experiments (use with caution):
+    · typedRoutes
+
+ ⨯ Conflicting app and page file was found, please remove the conflicting files to continue:
+ ⨯   "pages/index.tsx" - "app/page.tsx"
+ ELIFECYCLE  Command failed with exit code 1.

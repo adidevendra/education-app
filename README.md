@@ -26,21 +26,43 @@ This repository is a TypeScript-first Turborepo monorepo for a Learning Manageme
 - **Vitest** for tests
 - **GitHub Actions** for CI (build, lint, test on PRs)
 
-## Getting Started
+## Local Dev Quickstart
 
-1. Install dependencies:
+Prereqs: Node v20 (see `.nvmrc`), Docker.
+
+1) Install dependencies (npm workspaces):
    ```sh
-   pnpm install
+   npm install
    ```
-2. Run dev scripts for each app:
+
+2) Start infra (Postgres, Meilisearch, Redis):
    ```sh
-   pnpm dev --filter <app>
+   docker compose -f docker-compose.dev.yml up -d
    ```
-3. Lint, test, and build:
+
+3) Create `.env` from `.env.example` and adjust values.
+
+4) Run dev servers:
    ```sh
-   pnpm lint
-   pnpm test
-   pnpm build
+   # API (NestJS)
+   npm run dev -w apps/api
+
+   # Web (OpenIndia)
+   npm run dev -w apps/web-openindia
+
+   # Web (SSU)
+   npm run dev -w apps/web-ssu
+
+   # Mobile (Expo)
+   npm run dev -w apps/mobile
+   ```
+
+5) Lint, typecheck, test, build (turbo):
+   ```sh
+   npm run lint
+   npm run typecheck
+   npm run test
+   npm run build
    ```
 
 ## Contributing

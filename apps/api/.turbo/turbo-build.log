@@ -1,0 +1,12 @@
+
+> education-api@0.1.0 build /Users/adityagaikwad/Documents/Education App/apps/api
+> tsup src/main.ts --format cjs --out-dir dist --clean
+
+CLI Building entry: src/main.ts
+CLI Using tsconfig: tsconfig.json
+CLI tsup v8.5.0
+CLI Using tsup config: /Users/adityagaikwad/Documents/Education App/apps/api/tsup.config.ts
+CLI Target: es2022
+CLI Cleaning output folder
+CJS Build start
+CJS You have emitDecoratorMetadata enabled but @swc/core was not installed, skipping swc plugin

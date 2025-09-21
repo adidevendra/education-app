@@ -7,7 +7,7 @@ describe('ProfileService', () => {
   let service: ProfileService;
   let prisma: MockPrismaService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     process.env.USE_IN_MEMORY_DB = '1';
     const module: TestingModule = await Test.createTestingModule({
       providers: [ProfileService, { provide: PrismaService, useClass: MockPrismaService }],
@@ -15,6 +15,10 @@ describe('ProfileService', () => {
 
     service = module.get<ProfileService>(ProfileService);
     prisma = (module.get(PrismaService) as unknown) as MockPrismaService;
+  });
+
+  afterEach(() => {
+    delete process.env.USE_IN_MEMORY_DB;
   });
 
   it('creates and returns profile for user', async () => {

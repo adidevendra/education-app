@@ -1,0 +1,13 @@
+
+> @repo/i18n@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/i18n
+> tsup index.ts --dts --format esm --clean
+
+CLI Building entry: index.ts
+CLI tsup v8.5.0
+CLI Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/i18n/tsup.config.ts
+CLI Target: node16
+CLI Cleaning output folder
+ESM Build start
+ESM dist/index.js     1.25 KB
+ESM dist/index.js.map 2.04 KB
+ESM ⚡️ Build success in 79ms
