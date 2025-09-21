@@ -1,2 +1,38 @@
 
 
+> web-ssu@0.1.0 build /Users/adityagaikwad/Documents/Education App/apps/web-ssu
+> next build
+
+  [1m[38;2;173;127;168m▲ Next.js 14.2.10[39m[22m
+  - Experiments (use with caution):
+    · typedRoutes
+
+[?25l [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m
+ [37m[1m [22m[39m We detected TypeScript in your project and reconfigured your [36mtsconfig.json[39m file for you. Strict-mode is set to [36mfalse[39m by default.
+ [37m[1m [22m[39m The following suggested values were added to your [36mtsconfig.json[39m. These values [36mcan be changed[39m to fit your project's needs:
+
+ [37m[1m [22m[39m 	- [36mallowJs[39m was set to [1mtrue[22m
+ [37m[1m [22m[39m 	- [36mnoEmit[39m was set to [1mtrue[22m
+ [37m[1m [22m[39m 	- [36mincremental[39m was set to [1mtrue[22m
+
+ [37m[1m [22m[39m The following [37mmandatory changes[39m were made to your [36mtsconfig.json[39m:
+
+ [37m[1m [22m[39m 	- [36misolatedModules[39m was set to [1mtrue[22m (requirement for SWC / Babel)
+
+[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m..[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m...[39m[2K[1G [37m[1m [22m[39m Linting and checking validity of types  [36m.[39m[31mFailed to compile.
+[39m
+[36m./components/Layout.tsx[39m:[33m8[39m:[33m6[39m
+[31m[1mType error[22m[39m: 'Link' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof InternalLinkProps> & InternalLinkProps & { ...; } & RefAttributes<...>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof InternalLinkProps> & InternalLinkProps & { ...; } & RefAttributes<...>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("/Users/adityagaikwad/Documents/Education App/node_modules/.pnpm/@types+react@18.2.66/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+
+[0m [90m  6 |[39m   [36mconst[39m router [33m=[39m useRouter()[33m;[39m[0m
+[0m [90m  7 |[39m   [36mconst[39m link [33m=[39m (href[33m:[39m string[33m,[39m label[33m:[39m string) [33m=>[39m ([0m
+[0m[31m[1m>[22m[39m[90m  8 |[39m     [33m<[39m[33mLink[39m href[33m=[39m{href} aria[33m-[39mcurrent[33m=[39m{router[33m.[39mpathname[33m===[39mhref[33m?[39m [32m'page'[39m[33m:[39m undefined} className[33m=[39m{[[32m''[39m[33m,[39m router[33m.[39mpathname[33m===[39mhref[33m?[39m[32m'active'[39m[33m:[39m[32m''[39m][33m.[39mjoin([32m' '[39m)}[33m>[39m{label}[33m<[39m[33m/[39m[33mLink[39m[33m>[39m[0m
+[0m [90m    |[39m      [31m[1m^[22m[39m[0m
+[0m [90m  9 |[39m   )[33m;[39m[0m
+[0m [90m 10 |[39m   [36mreturn[39m ([0m
+[0m [90m 11 |[39m     [33m<[39m[33mdiv[39m className[33m=[39m[32m"app-shell"[39m role[33m=[39m[32m"application"[39m[33m>[39m[0m
+[?25h[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m

@@ -3,12 +3,6 @@
 > @repo/types@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/types
 > tsup
 
-[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
-
-    tsconfig.json:2:13:
-[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
-        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
-
 [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
 
     package.json:12:6:
@@ -31,12 +25,12 @@
 [34mCLI[39m Using tsconfig: tsconfig.json
 [34mCLI[39m tsup v8.5.0
 [34mCLI[39m Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/types/tsup.config.ts
-[34mCLI[39m Target: node16
+[34mCLI[39m Target: es2022
 [34mCLI[39m Cleaning output folder
 [34mCJS[39m Build start
 [34mESM[39m Build start
 
-[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
+[90m[[90m6:12:24 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
 
     package.json:12:6:
 [37m      12 │       [32m"types"[37m: "./dist/index.d.ts"
@@ -57,16 +51,7 @@
 
 
 
-[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
-
-    tsconfig.json:2:13:
-[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
-        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
-
-
-
-
-[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
+[90m[[90m6:12:24 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
 
     package.json:12:6:
 [37m      12 │       [32m"types"[37m: "./dist/index.d.ts"
@@ -86,42 +71,13 @@
 
 
 
-
-[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
-
-    tsconfig.json:2:13:
-[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
-        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
-
-
-
-[32mCJS[39m [1mdist/index.js     [22m[32m5.78 KB[39m
-[32mCJS[39m [1mdist/index.js.map [22m[32m7.94 KB[39m
-[32mCJS[39m ⚡️ Build success in 62ms
 [32mESM[39m [1mdist/index.mjs     [22m[32m3.68 KB[39m
 [32mESM[39m [1mdist/index.mjs.map [22m[32m7.63 KB[39m
-[32mESM[39m ⚡️ Build success in 65ms
+[32mESM[39m ⚡️ Build success in 203ms
+[32mCJS[39m [1mdist/index.js     [22m[32m5.80 KB[39m
+[32mCJS[39m [1mdist/index.js.map [22m[32m7.95 KB[39m
+[32mCJS[39m ⚡️ Build success in 203ms
 DTS Build start
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
-
-src/segment.ts(1,19): error TS2792: Cannot find module 'zod'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
-
-[31mError: error occurred in dts build
-    at Worker.<anonymous> (/Users/adityagaikwad/Documents/Education App/node_modules/.pnpm/tsup@8.5.0_jiti@2.5.1_postcss@8.5.6_typescript@5.9.2_yaml@2.8.1/node_modules/tsup/dist/index.js:1545:26)
-    at Worker.emit (node:events:524:28)
-    at MessagePort.<anonymous> (node:internal/worker:268:53)
-    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:831:20)
-    at MessagePort.<anonymous> (node:internal/per_context/messageport:23:28)[39m
-DTS Build error
+DTS ⚡️ Build success in 3126ms
+DTS dist/index.d.ts  8.19 KB
+DTS dist/index.d.mts 8.19 KB

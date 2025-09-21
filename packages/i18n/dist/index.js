@@ -14,12 +14,12 @@ var defaultResources = {
 var i18n = i18next.createInstance();
 async function initI18n(options) {
   await i18n.use(ICU).init({
-    lng: (options == null ? void 0 : options.lng) || "en",
+    lng: options?.lng || "en",
     fallbackLng: (code) => fallbackLng[code] || ["en"],
     compatibilityJSON: "v4",
     interpolation: { escapeValue: false },
     returnObjects: true,
-    resources: { ...(options == null ? void 0 : options.resources) || defaultResources },
+    resources: { ...options?.resources || defaultResources },
     ...options
   });
   return i18n;

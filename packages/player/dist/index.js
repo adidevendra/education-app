@@ -1,3 +1,4 @@
+"use strict";
 "use client";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -275,7 +276,7 @@ var CoursePlayer = ({
     if (!v) return;
     const bm = { time: Math.floor(v.currentTime) };
     addBookmark(bm);
-    onBookmarkAdd == null ? void 0 : onBookmarkAdd(bm);
+    onBookmarkAdd?.(bm);
   };
   const onAddNote = () => {
     const v = videoRef.current;
@@ -284,7 +285,7 @@ var CoursePlayer = ({
     if (text && text.trim()) {
       const note = { time: Math.floor(v.currentTime), note: text.trim() };
       addNote(note);
-      onNoteAdd == null ? void 0 : onNoteAdd(note);
+      onNoteAdd?.(note);
     }
   };
   const captionEls = (0, import_react2.useMemo)(() => {
@@ -294,22 +295,10 @@ var CoursePlayer = ({
     /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "relative", children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("video", { ref: videoRef, poster, controls: true, style: { width: "100%", maxHeight: 480 }, children: captionEls }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
-          var _a;
-          return (_a = videoRef.current) == null ? void 0 : _a.play();
-        }, children: "Play" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
-          var _a;
-          return (_a = videoRef.current) == null ? void 0 : _a.pause();
-        }, children: "Pause" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
-          var _a;
-          return setA(((_a = videoRef.current) == null ? void 0 : _a.currentTime) || 0);
-        }, children: "Set A" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
-          var _a;
-          return setB(((_a = videoRef.current) == null ? void 0 : _a.currentTime) || 0);
-        }, children: "Set B" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => videoRef.current?.play(), children: "Play" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => videoRef.current?.pause(), children: "Pause" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setA(videoRef.current?.currentTime || 0), children: "Set A" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => setB(videoRef.current?.currentTime || 0), children: "Set B" }),
         /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { onClick: toggleAB, children: [
           enabled ? "Disable" : "Enable",
           " Loop"

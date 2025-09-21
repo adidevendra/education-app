@@ -4,19 +4,20 @@
 > tsup src/index.ts --dts --format esm,cjs --clean
 
 [34mCLI[39m Building entry: src/index.ts
+[34mCLI[39m Using tsconfig: ../../tsconfig.json
 [34mCLI[39m tsup v8.1.0
 [34mCLI[39m Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/sdk/tsup.config.ts
-[34mCLI[39m Target: node16
+[34mCLI[39m Target: es2022
 [34mCLI[39m Cleaning output folder
 [34mESM[39m Build start
 [34mCJS[39m Build start
-[32mCJS[39m [1mdist/index.cjs     [22m[32m10.37 KB[39m
+[32mCJS[39m [1mdist/index.cjs     [22m[32m10.39 KB[39m
 [32mCJS[39m [1mdist/index.cjs.map [22m[32m24.38 KB[39m
-[32mCJS[39m ⚡️ Build success in 46ms
+[32mCJS[39m ⚡️ Build success in 135ms
 [32mESM[39m [1mdist/index.js     [22m[32m7.74 KB[39m
 [32mESM[39m [1mdist/index.js.map [22m[32m23.98 KB[39m
-[32mESM[39m ⚡️ Build success in 46ms
+[32mESM[39m ⚡️ Build success in 135ms
 [34mDTS[39m Build start
-[32mDTS[39m ⚡️ Build success in 1915ms
+[32mDTS[39m ⚡️ Build success in 2842ms
 [32mDTS[39m [1mdist/index.d.ts  [22m[32m13.33 KB[39m
 [32mDTS[39m [1mdist/index.d.cts [22m[32m13.33 KB[39m
