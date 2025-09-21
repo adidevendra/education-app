@@ -1,3 +1,4 @@
+"use client";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -39,11 +40,12 @@ __export(index_exports, {
   useNotes: () => useNotes
 });
 module.exports = __toCommonJS(index_exports);
-var import_react2 = __toESM(require("react"));
+var import_react2 = require("react");
 
 // PlayerShell.tsx
-var import_react = __toESM(require("react"));
+var import_react = require("react");
 var import_hls = __toESM(require("hls.js"));
+var import_jsx_runtime = require("react/jsx-runtime");
 function selectCaptionCue(cues, time, driftThresholdMs) {
   const direct = cues.find((c) => time >= c.start && time < c.end);
   if (direct) return direct;
@@ -51,9 +53,10 @@ function selectCaptionCue(cues, time, driftThresholdMs) {
   const near = cues.find((c) => Math.abs(time - c.start) <= thresholdSec);
   return near || null;
 }
-function useCaptions({ cues, video, enabled, driftThreshold }) {
+function useCaptions({ cues, videoRef, enabled, driftThreshold }) {
   const [active, setActive] = (0, import_react.useState)(null);
   (0, import_react.useEffect)(() => {
+    const video = videoRef.current;
     if (!video || !enabled) {
       setActive(null);
       return;
@@ -66,7 +69,7 @@ function useCaptions({ cues, video, enabled, driftThreshold }) {
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [video, cues, enabled, driftThreshold]);
+  }, [videoRef, cues, enabled, driftThreshold]);
   return active;
 }
 var PlayerShell = ({
@@ -98,7 +101,7 @@ var PlayerShell = ({
     }
     video.src = src;
   }, [src]);
-  const activeCue = useCaptions({ cues: captions, video: videoRef.current, enabled: showCaptions, driftThreshold: driftCorrectionMs });
+  const activeCue = useCaptions({ cues: captions, videoRef, enabled: showCaptions, driftThreshold: driftCorrectionMs });
   const glossaryIndex = (0, import_react.useMemo)(() => {
     const map = /* @__PURE__ */ new Map();
     glossary.forEach((g) => map.set(g.term.toLowerCase(), g));
@@ -109,11 +112,11 @@ var PlayerShell = ({
     const words = activeCue.text.split(/(\s+)/).map((w, i) => {
       const term = glossaryIndex.get(w.toLowerCase());
       if (term) {
-        return /* @__PURE__ */ import_react.default.createElement("span", { key: i, "data-term": term.term, className: "player-term", style: { cursor: "pointer", textDecoration: "underline dotted" } }, w);
+        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "data-term": term.term, className: "player-term", style: { cursor: "pointer", textDecoration: "underline dotted" }, children: w }, i);
       }
       return w;
     });
-    return /* @__PURE__ */ import_react.default.createElement("span", null, words);
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: words });
   }, [activeCue, glossaryIndex]);
   (0, import_react.useEffect)(() => {
     const handler = (e) => {
@@ -149,11 +152,36 @@ var PlayerShell = ({
       }
     }
   }, [glossaryIndex]);
-  return /* @__PURE__ */ import_react.default.createElement("div", { className, "data-player-shell": true }, /* @__PURE__ */ import_react.default.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ import_react.default.createElement("video", { ref: videoRef, controls: true, style: { width: "100%", maxHeight: 500 } }), /* @__PURE__ */ import_react.default.createElement("div", { style: { position: "absolute", top: 8, left: 8, display: "flex", gap: 8 } }, /* @__PURE__ */ import_react.default.createElement("button", { onClick: () => setLang((l) => l === "en" ? "hi" : "en"), "aria-label": "toggle-language" }, "Lang: ", lang), /* @__PURE__ */ import_react.default.createElement("button", { onClick: () => setShowCaptions((c) => !c), "aria-label": "toggle-captions" }, "CC ", showCaptions ? "On" : "Off"), glossary.length > 0 && /* @__PURE__ */ import_react.default.createElement("button", { onClick: () => setShowGlossary((g) => !g), "aria-label": "toggle-glossary" }, "Glossary")), showCaptions && activeCue && /* @__PURE__ */ import_react.default.createElement("div", { onClick: onGlossaryClick, "aria-live": "polite", style: { position: "absolute", bottom: 40, width: "100%", textAlign: "center", color: "white", textShadow: "0 0 4px black", fontSize: 18 } }, highlighted)), showGlossary && /* @__PURE__ */ import_react.default.createElement("aside", { "aria-label": "glossary", style: { marginTop: 12, border: "1px solid #ddd", padding: 8, maxHeight: 200, overflow: "auto" } }, /* @__PURE__ */ import_react.default.createElement("h4", { style: { margin: "4px 0" } }, "Glossary"), /* @__PURE__ */ import_react.default.createElement("ul", { style: { listStyle: "none", padding: 0, margin: 0 } }, glossary.map((g) => /* @__PURE__ */ import_react.default.createElement("li", { key: g.term, style: { marginBottom: 4 } }, /* @__PURE__ */ import_react.default.createElement("strong", null, g.term), ": ", g.definition)))));
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className, "data-player-shell": true, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "relative" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("video", { ref: videoRef, controls: true, style: { width: "100%", maxHeight: 500 } }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "absolute", top: 8, left: 8, display: "flex", gap: 8 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setLang((l) => l === "en" ? "hi" : "en"), "aria-label": "toggle-language", children: [
+          "Lang: ",
+          lang
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowCaptions((c) => !c), "aria-label": "toggle-captions", children: [
+          "CC ",
+          showCaptions ? "On" : "Off"
+        ] }),
+        glossary.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setShowGlossary((g) => !g), "aria-label": "toggle-glossary", children: "Glossary" })
+      ] }),
+      showCaptions && activeCue && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { onClick: onGlossaryClick, "aria-live": "polite", style: { position: "absolute", bottom: 40, width: "100%", textAlign: "center", color: "white", textShadow: "0 0 4px black", fontSize: 18 }, children: highlighted })
+    ] }),
+    showGlossary && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("aside", { "aria-label": "glossary", style: { marginTop: 12, border: "1px solid #ddd", padding: 8, maxHeight: 200, overflow: "auto" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "4px 0" }, children: "Glossary" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { style: { listStyle: "none", padding: 0, margin: 0 }, children: glossary.map((g) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", { style: { marginBottom: 4 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: g.term }),
+        ": ",
+        g.definition
+      ] }, g.term)) })
+    ] })
+  ] });
 };
 
 // index.tsx
 var import_hls2 = __toESM(require("hls.js"));
+var import_jsx_runtime2 = require("react/jsx-runtime");
 function useABLoop() {
   const [a, setA] = (0, import_react2.useState)(null);
   const [b, setB] = (0, import_react2.useState)(null);
@@ -260,32 +288,71 @@ var CoursePlayer = ({
     }
   };
   const captionEls = (0, import_react2.useMemo)(() => {
-    return captions.map((c, i) => /* @__PURE__ */ import_react2.default.createElement("track", { key: i, label: c.label, kind: "subtitles", srcLang: c.srclang, src: c.src, default: c.default }));
+    return captions.map((c, i) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("track", { label: c.label, kind: "subtitles", srcLang: c.srclang, src: c.src, default: c.default }, i));
   }, [captions]);
-  return /* @__PURE__ */ import_react2.default.createElement("div", { className }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "relative" }, /* @__PURE__ */ import_react2.default.createElement("video", { ref: videoRef, poster, controls: true, style: { width: "100%", maxHeight: 480 } }, captionEls), /* @__PURE__ */ import_react2.default.createElement("div", { style: { display: "flex", gap: 8, marginTop: 8 } }, /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => {
-    var _a;
-    return (_a = videoRef.current) == null ? void 0 : _a.play();
-  } }, "Play"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => {
-    var _a;
-    return (_a = videoRef.current) == null ? void 0 : _a.pause();
-  } }, "Pause"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => {
-    var _a;
-    return setA(((_a = videoRef.current) == null ? void 0 : _a.currentTime) || 0);
-  } }, "Set A"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => {
-    var _a;
-    return setB(((_a = videoRef.current) == null ? void 0 : _a.currentTime) || 0);
-  } }, "Set B"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: toggleAB }, enabled ? "Disable" : "Enable", " Loop"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: clearAB }, "Clear Loop"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: onAddBookmark }, "Bookmark"), /* @__PURE__ */ import_react2.default.createElement("button", { onClick: onAddNote }, "Note"))), transcript.length > 0 && /* @__PURE__ */ import_react2.default.createElement("div", { style: { marginTop: 16 } }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Transcript"), /* @__PURE__ */ import_react2.default.createElement("ul", { style: { maxHeight: 160, overflow: "auto" } }, transcript.map((t, i) => /* @__PURE__ */ import_react2.default.createElement("li", { key: i }, /* @__PURE__ */ import_react2.default.createElement(
-    "button",
-    {
-      onClick: () => {
-        if (videoRef.current) videoRef.current.currentTime = t.start;
-      }
-    },
-    "[",
-    formatTime(t.start),
-    "] ",
-    t.text
-  ))))), bookmarks.length > 0 && /* @__PURE__ */ import_react2.default.createElement("div", { style: { marginTop: 16 } }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Bookmarks"), /* @__PURE__ */ import_react2.default.createElement("ul", null, bookmarks.map((b2, i) => /* @__PURE__ */ import_react2.default.createElement("li", { key: i }, /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => videoRef.current && (videoRef.current.currentTime = b2.time) }, formatTime(b2.time), " ", b2.note ? `- ${b2.note}` : ""))))), notes.length > 0 && /* @__PURE__ */ import_react2.default.createElement("div", { style: { marginTop: 16 } }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Notes"), /* @__PURE__ */ import_react2.default.createElement("ul", null, notes.map((n, i) => /* @__PURE__ */ import_react2.default.createElement("li", { key: i }, /* @__PURE__ */ import_react2.default.createElement("button", { onClick: () => videoRef.current && (videoRef.current.currentTime = n.time) }, formatTime(n.time), " - ", n.note))))));
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "relative", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("video", { ref: videoRef, poster, controls: true, style: { width: "100%", maxHeight: 480 }, children: captionEls }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 8 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
+          var _a;
+          return (_a = videoRef.current) == null ? void 0 : _a.play();
+        }, children: "Play" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
+          var _a;
+          return (_a = videoRef.current) == null ? void 0 : _a.pause();
+        }, children: "Pause" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
+          var _a;
+          return setA(((_a = videoRef.current) == null ? void 0 : _a.currentTime) || 0);
+        }, children: "Set A" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: () => {
+          var _a;
+          return setB(((_a = videoRef.current) == null ? void 0 : _a.currentTime) || 0);
+        }, children: "Set B" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { onClick: toggleAB, children: [
+          enabled ? "Disable" : "Enable",
+          " Loop"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: clearAB, children: "Clear Loop" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: onAddBookmark, children: "Bookmark" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { onClick: onAddNote, children: "Note" })
+      ] })
+    ] }),
+    transcript.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { style: { marginTop: 16 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "Transcript" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { style: { maxHeight: 160, overflow: "auto" }, children: transcript.map((t, i) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+        "button",
+        {
+          onClick: () => {
+            if (videoRef.current) videoRef.current.currentTime = t.start;
+          },
+          children: [
+            "[",
+            formatTime(t.start),
+            "] ",
+            t.text
+          ]
+        }
+      ) }, i)) })
+    ] }),
+    bookmarks.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { style: { marginTop: 16 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "Bookmarks" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { children: bookmarks.map((b2, i) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { onClick: () => videoRef.current && (videoRef.current.currentTime = b2.time), children: [
+        formatTime(b2.time),
+        " ",
+        b2.note ? `- ${b2.note}` : ""
+      ] }) }, i)) })
+    ] }),
+    notes.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { style: { marginTop: 16 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { children: "Notes" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("ul", { children: notes.map((n, i) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { onClick: () => videoRef.current && (videoRef.current.currentTime = n.time), children: [
+        formatTime(n.time),
+        " - ",
+        n.note
+      ] }) }, i)) })
+    ] })
+  ] });
 };
 function formatTime(sec) {
   const s = Math.floor(sec % 60).toString().padStart(2, "0");

@@ -1,13 +1,33 @@
 
+
 > @repo/i18n@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/i18n
 > tsup index.ts --dts --format esm --clean
 
-CLI Building entry: index.ts
-CLI tsup v8.5.0
-CLI Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/i18n/tsup.config.ts
-CLI Target: node16
-CLI Cleaning output folder
-ESM Build start
-ESM dist/index.js     1.25 KB
-ESM dist/index.js.map 2.04 KB
-ESM ⚡️ Build success in 79ms
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
+
+    tsconfig.json:2:13:
+[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
+        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+[34mCLI[39m Building entry: index.ts
+[34mCLI[39m Using tsconfig: tsconfig.json
+[34mCLI[39m tsup v8.5.0
+[34mCLI[39m Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/i18n/tsup.config.ts
+[34mCLI[39m Target: node16
+[34mCLI[39m Cleaning output folder
+[34mESM[39m Build start
+
+[90m[[90m4:17:05 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
+
+    tsconfig.json:2:13:
+[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
+        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+
+[32mESM[39m [1mdist/index.js     [22m[32m1.25 KB[39m
+[32mESM[39m [1mdist/index.js.map [22m[32m2.15 KB[39m
+[32mESM[39m ⚡️ Build success in 42ms
+DTS Build start
+error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
+

@@ -1,17 +1,22 @@
 
+
 > @repo/sdk@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/sdk
 > tsup src/index.ts --dts --format esm,cjs --clean
 
-CLI Building entry: src/index.ts
-CLI tsup v8.1.0
-CLI Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/sdk/tsup.config.ts
-CLI Target: node16
-CLI Cleaning output folder
-ESM Build start
-CJS Build start
-CJS dist/index.cjs     10.37 KB
-CJS dist/index.cjs.map 24.38 KB
-CJS ⚡️ Build success in 24ms
-ESM dist/index.js     7.74 KB
-ESM dist/index.js.map 23.98 KB
-ESM ⚡️ Build success in 24ms
+[34mCLI[39m Building entry: src/index.ts
+[34mCLI[39m tsup v8.1.0
+[34mCLI[39m Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/sdk/tsup.config.ts
+[34mCLI[39m Target: node16
+[34mCLI[39m Cleaning output folder
+[34mESM[39m Build start
+[34mCJS[39m Build start
+[32mCJS[39m [1mdist/index.cjs     [22m[32m10.37 KB[39m
+[32mCJS[39m [1mdist/index.cjs.map [22m[32m24.38 KB[39m
+[32mCJS[39m ⚡️ Build success in 46ms
+[32mESM[39m [1mdist/index.js     [22m[32m7.74 KB[39m
+[32mESM[39m [1mdist/index.js.map [22m[32m23.98 KB[39m
+[32mESM[39m ⚡️ Build success in 46ms
+[34mDTS[39m Build start
+[32mDTS[39m ⚡️ Build success in 1915ms
+[32mDTS[39m [1mdist/index.d.ts  [22m[32m13.33 KB[39m
+[32mDTS[39m [1mdist/index.d.cts [22m[32m13.33 KB[39m

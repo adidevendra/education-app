@@ -13,16 +13,16 @@
     }
   },
   "scripts": {
-  "build": "tsup index.ts --dts --format esm --clean",
-  "test": "vitest run"
+    "build": "tsup index.ts --dts --format esm --clean",
+    "test": "vitest run"
   },
   "dependencies": {
-  "i18next": "^23.11.5",
-  "i18next-icu": "^2.4.0"
+    "i18next": "^23.16.8",
+    "i18next-icu": "^2.4.0"
   },
   "devDependencies": {
     "tsup": "^8.5.0",
-  "typescript": "^5.9.2",
-  "vitest": "^1.0.0"
+    "typescript": "^5.9.2",
+    "vitest": "^1.0.0"
   }
 }

@@ -1,34 +1,42 @@
 
-> @repo/player@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/player
+
+> @education/player@0.1.0 build /Users/adityagaikwad/Documents/Education App/packages/player
 > tsup
 
-▲ [WARNING] The condition "types" here will never be used as it comes after both "import" and "require" [package.json]
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
+
+    tsconfig.json:2:13:
+[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
+        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
 
     package.json:12:6:
-      12 │       "types": "./dist/index.d.ts"
-         ╵       ~~~~~~~
+[37m      12 │       [32m"types"[37m: "./dist/index.d.ts"
+         ╵       [32m~~~~~~~[0m
 
   The "import" condition comes earlier and will be used for all "import" statements:
 
     package.json:10:6:
-      10 │       "import": "./dist/index.js",
-         ╵       ~~~~~~~~
+[37m      10 │       [32m"import"[37m: "./dist/index.js",
+         ╵       [32m~~~~~~~~[0m
 
   The "require" condition comes earlier and will be used for all "require" calls:
 
     package.json:11:6:
-      11 │       "require": "./dist/index.cjs",
-         ╵       ~~~~~~~~~
+[37m      11 │       [32m"require"[37m: "./dist/index.cjs",
+         ╵       [32m~~~~~~~~~[0m
 
-CLI Building entry: index.tsx
-CLI tsup v8.5.0
-CLI Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/player/tsup.config.ts
-CLI Target: node16
-CLI Cleaning output folder
-CJS Build start
-ESM Build start
+[34mCLI[39m Building entry: index.tsx
+[34mCLI[39m Using tsconfig: tsconfig.json
+[34mCLI[39m tsup v8.5.0
+[34mCLI[39m Using tsup config: /Users/adityagaikwad/Documents/Education App/packages/player/tsup.config.ts
+[34mCLI[39m Target: node16
+[34mCLI[39m Cleaning output folder
+[34mCJS[39m Build start
+[34mESM[39m Build start
 
- WARN  [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
+[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
 
     package.json:12:6:
 [37m      12 │       [32m"types"[37m: "./dist/index.d.ts"
@@ -48,11 +56,17 @@ ESM Build start
 
 
 
-CJS dist/index.js     15.19 KB
-CJS dist/index.js.map 22.81 KB
-CJS ⚡️ Build success in 165ms
 
- WARN  [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
+[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
+
+    tsconfig.json:2:13:
+[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
+        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+
+
+[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mThe condition "types" here will never be used as it comes after both "import" and "require"[0m [package.json]
 
     package.json:12:6:
 [37m      12 │       [32m"types"[37m: "./dist/index.d.ts"
@@ -72,6 +86,88 @@ CJS ⚡️ Build success in 165ms
 
 
 
-ESM dist/index.mjs     12.44 KB
-ESM dist/index.mjs.map 22.67 KB
-ESM ⚡️ Build success in 175ms
+
+[90m[[90m4:17:04 PM[90m][39m [43m[30m WARN [39m[49m [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mCannot find base config file "../../tsconfig.json"[0m [tsconfig.json]
+
+    tsconfig.json:2:13:
+[37m      2 │   "extends": [32m"../../tsconfig.json"[37m,
+        ╵              [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+
+[32mESM[39m [1mdist/index.mjs     [22m[32m12.88 KB[39m
+[32mESM[39m [1mdist/index.mjs.map [22m[32m22.96 KB[39m
+[32mESM[39m ⚡️ Build success in 45ms
+[32mCJS[39m [1mdist/index.js     [22m[32m16.01 KB[39m
+[32mCJS[39m [1mdist/index.js.map [22m[32m22.77 KB[39m
+[32mCJS[39m ⚡️ Build success in 45ms
+DTS Build start
+error TS5083: Cannot read file '/Users/adityagaikwad/Documents/Education App/tsconfig.json'.
+
+index.tsx(5,17): error TS2792: Cannot find module 'hls.js'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?
+index.tsx(50,14): error TS2322: Type '({ src, poster, captions, transcript, initialBookmarks, initialNotes, onBookmarkAdd, onNoteAdd, className, }: CoursePlayerProps) => Element' is not assignable to type 'FC<CoursePlayerProps>'.
+  Type 'Element' is not assignable to type 'ReactNode | Promise<ReactNode>'.
+index.tsx(143,7): error TS2339: Property 'track' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(148,5): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(149,7): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(150,9): error TS2339: Property 'video' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(152,9): error TS2339: Property 'video' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(153,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(154,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(154,64): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(155,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(155,66): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(156,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(156,81): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(157,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(157,81): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(158,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(158,75): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(159,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(159,47): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(160,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(160,51): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(161,11): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(161,43): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(162,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(163,7): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(167,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(168,11): error TS2339: Property 'h4' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(168,25): error TS2339: Property 'h4' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(169,11): error TS2339: Property 'ul' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(171,15): error TS2339: Property 'li' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(172,17): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(178,17): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(179,15): error TS2339: Property 'li' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(181,11): error TS2339: Property 'ul' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(182,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(187,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(188,11): error TS2339: Property 'h4' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(188,24): error TS2339: Property 'h4' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(189,11): error TS2339: Property 'ul' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(191,15): error TS2339: Property 'li' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(192,17): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(194,17): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(195,15): error TS2339: Property 'li' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(197,11): error TS2339: Property 'ul' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(198,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(203,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(204,11): error TS2339: Property 'h4' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(204,20): error TS2339: Property 'h4' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(205,11): error TS2339: Property 'ul' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(207,15): error TS2339: Property 'li' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(208,17): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(210,17): error TS2339: Property 'button' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(211,15): error TS2339: Property 'li' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(213,11): error TS2339: Property 'ul' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(214,9): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+index.tsx(216,5): error TS2339: Property 'div' does not exist on type 'JSX.IntrinsicElements'.
+
+[31mError: error occurred in dts build
+    at Worker.<anonymous> (/Users/adityagaikwad/Documents/Education App/node_modules/.pnpm/tsup@8.5.0_jiti@2.5.1_postcss@8.5.6_typescript@5.9.2_yaml@2.8.1/node_modules/tsup/dist/index.js:1545:26)
+    at Worker.emit (node:events:524:28)
+    at MessagePort.<anonymous> (node:internal/worker:268:53)
+    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:831:20)
+    at MessagePort.<anonymous> (node:internal/per_context/messageport:23:28)[39m
+DTS Build error
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m
