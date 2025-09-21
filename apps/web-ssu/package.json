@@ -1,0 +1,27 @@
+{
+  "name": "web-ssu",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3030",
+    "build": "next build",
+    "start": "next start -p 3030",
+    "lint": "eslint .",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "14.2.10",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zod": "3.23.8",
+    "@repo/sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.46.1",
+    "@types/node": "20.14.10",
+    "@types/react": "18.2.66",
+    "@types/react-dom": "18.2.22",
+    "eslint": "9.9.0",
+    "typescript": "5.5.4"
+  }
+}

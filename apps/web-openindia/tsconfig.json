@@ -1,7 +1,46 @@
 {
   "extends": "../../packages/config/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "module": "esnext",
+    "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@education/player": [
+        "../../packages/player/index.tsx"
+      ],
+      "@repo/i18n": [
+        "../../packages/i18n/index.ts"
+      ],
+      "@repo/sdk": [
+        "../../packages/sdk/src/index.ts"
+      ],
+      "@repo/sdk/*": [
+        "../../packages/sdk/src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
-  "include": ["pages"]
+  "include": [
+    "pages",
+    "app",
+    "components",
+    "types",
+    ".next/types/**/*.ts"
+  ]
 }

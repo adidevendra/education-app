@@ -1,21 +1,20 @@
 import { Controller, Get, Post, Body, Patch, Param, Query, UseGuards, Req } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { z } from 'zod';
 import { ZodValidationPipe } from '../common/zod-validation.pipe';
+import { CourseSchema } from '@repo/types';
 import { CoursesService } from './courses.service';
 import { SearchService } from '../search/search.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { OutboxRepo } from '../db/outbox';
 
-const CreateCourseDto = z.object({
-  title: z.string().min(3),
-  slug: z.string().min(3),
-  description: z.string().optional(),
-  published: z.boolean().optional(),
+// Use shared CourseSchema; extend for controller-specific fields (published, language, price)
+const CreateCourseDto = CourseSchema.pick({ title: true, slug: true, description: true, tags: true }).extend({
+  published: (CourseSchema.shape as any).visibility?.optional?.() || (CourseSchema.shape.visibility as any).optional(),
+  language: CourseSchema.shape.title.transform(() => '').optional().optional(), // placeholder simple string
+  price: CourseSchema.shape.estimatedMinutes.transform(() => 0).optional().optional(),
 });
-
-type CreateCourseDto = z.infer<typeof CreateCourseDto>;
-
-const UpdateCourseDto = CreateCourseDto.partial();
+type CreateCourseDto = typeof CreateCourseDto extends { _output: infer O } ? O : never;
+const UpdateCourseDto = (CreateCourseDto as any).partial();
 
 @ApiTags('courses')
 @Controller('courses')
@@ -38,14 +37,39 @@ export class CoursesController {
   @Post()
   @ApiBody({ type: Object, examples: { sample: { value: { title: 'Intro', slug: 'intro' } } } })
   @ApiResponse({ status: 201, description: 'Course created' })
-  create(@Body(new ZodValidationPipe(CreateCourseDto)) body: CreateCourseDto) {
-    return this.service.create(body as any);
+  create(@Body(new ZodValidationPipe(CreateCourseDto)) body: CreateCourseDto, @Req() req: any) {
+    return this.service.create(body as any).then(async (created) => {
+      if (body.published) {
+        await OutboxRepo.enqueue('index-course', {
+          id: created.id,
+          orgId: req.orgId ?? null,
+          title: created.title,
+          description: created.description ?? null,
+          tags: body.tags ?? [],
+          lang: body.language ?? null,
+          price: body.price ?? null,
+        });
+      }
+      return created;
+    });
   }
 
   @Patch(':id')
   @ApiResponse({ status: 200, description: 'Course updated' })
-  update(@Param('id') id: string, @Body(new ZodValidationPipe(UpdateCourseDto)) body: Partial<CreateCourseDto>) {
-    return this.service.update(id, body as any);
+  update(@Param('id') id: string, @Body(new ZodValidationPipe(UpdateCourseDto)) body: Partial<CreateCourseDto>, @Req() req: any) {
+    return this.service.update(id, body as any).then(async (updated) => {
+      // Enqueue index on update
+      await OutboxRepo.enqueue('index-course', {
+        id: updated.id,
+        orgId: req.orgId ?? null,
+        title: updated.title,
+        description: updated.description ?? null,
+        tags: body.tags ?? [],
+        lang: body.language ?? null,
+        price: body.price ?? null,
+      });
+      return updated;
+    });
   }
 
   @Post(':id/enroll')

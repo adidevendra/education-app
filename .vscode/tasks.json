@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install deps (pnpm) and run web-openindia dev",
+			"type": "shell",
+			"command": "pnpm install && pnpm --filter web-openindia dev",
+			"isBackground": true,
+			"group": "build"
+		}
+	]
+}

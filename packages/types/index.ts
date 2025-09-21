@@ -1,10 +1,8 @@
-import { z } from 'zod';
+// Re-export all modularized schemas for consumers
+export * from './src/course';
+export * from './src/lecture';
+export * from './src/segment';
+export * from './src/glossary';
+export * from './src/quiz';
+export * from './src/user';
 
-// Example Zod schema
-export const UserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  email: z.string().email(),
-});
-
-export type User = z.infer<typeof UserSchema>;

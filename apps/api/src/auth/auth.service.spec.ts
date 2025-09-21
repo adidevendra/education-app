@@ -6,17 +6,25 @@ import { MockPrismaService } from '../prisma/mock-prisma.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  beforeAll(async () => {
+  let prisma: MockPrismaService;
+
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AuthService, JwtService, { provide: PrismaService, useClass: MockPrismaService }],
     }).compile();
+
     service = module.get<AuthService>(AuthService);
+    prisma = module.get(PrismaService) as unknown as MockPrismaService;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('login issues token for existing user', async () => {
-    const prisma = (service as any).prisma as MockPrismaService;
     await prisma.user.create({ data: { email: 'a@b.com', name: 'A' } } as any);
-  const res = await service.login('a@b.com', 'pw');
+
+    const res = await service.login('a@b.com', 'pw');
     expect(res.access_token).toBeDefined();
   });
 });
